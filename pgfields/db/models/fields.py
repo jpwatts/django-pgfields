@@ -15,7 +15,7 @@ class CharField(models.Field):
         defaults.update(kwargs)
         return super(CharField, self).formfield(**defaults)
 
-    def db_type(self):
+    def db_type(self, connection=None):
         if self.max_length:
             return 'varchar(%s)' % self.max_length
         return 'text'
@@ -61,7 +61,7 @@ class UUIDField(CharField):
         kwargs.setdefault('editable', not kwargs.get('primary_key', False))
         super(UUIDField, self).__init__(*args, **kwargs)
 
-    def db_type(self):
+    def db_type(self, connection=None):
         return 'uuid'
 
     def get_db_prep_value(self, value):
